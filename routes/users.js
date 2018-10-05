@@ -4,21 +4,29 @@ import User from '../schemas/user';
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
-	const users = await User.find({});
-	res.json(users);
+    const users = await User.find({});
+    res.json(users);
 });
 
-router.post('/', async (req, res, next) => {
-	const user = new User({
-		name : req.body.name,
-		age : req.body.age,
-	});
+router.post('/', (req, res, next) => {
+    const user = new User({
+        name : req.body.name,
+        age : req.body.age,
+    });
 
-	user.save()
-	.then((result) => {
-		console.log(result);
-		res.status(201).json(result);
-	});
+    user.save()
+    .then((result) => {
+        console.log(result);
+        res.status(201).json(result);
+    });
+});
+
+router.delete('/:id', async (req, res, next) => {
+    await User.findOneAndRemove({_id: req.params.id})
+    .then((result) => {
+        console.log(result);
+        res.json(result);
+    });
 });
 
 module.exports = router;
