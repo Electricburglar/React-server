@@ -21,6 +21,17 @@ router.post('/', (req, res, next) => {
     });
 });
 
+router.patch('/:id', async (req, res, next) => {
+    await User.findOneAndUpdate({_id: req.params.id}, {
+        name: req.body.name,
+    })
+    .then((result) => {
+        console.log(result);
+        res.json(result);
+    });
+
+});
+
 router.delete('/:id', async (req, res, next) => {
     await User.findOneAndRemove({_id: req.params.id})
     .then((result) => {
